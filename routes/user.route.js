@@ -10,15 +10,15 @@ user_router.post("/register", async (req, res) => {
         bcrypt.hash(pass,5 , async(err, secure_password)=> {
             if(err){
                  console.log(err);
-                 res.send("not working");
+                 res.json("not working");
             }else{
                 const user = new usermodel({name,email,pass:secure_password,age});// mongoose prefer this method to enter one data
                 await user.save();
-                res.send("registerd");
+                res.json("registerd");
             }
     });
     } catch (error) {
-        res.send("Error in registering");
+        res.json("Error in registering");
         console.log(error);
     }
 })
@@ -30,17 +30,17 @@ user_router.post("/login", async (req, res) => {
             bcrypt.compare(pass, user[0].pass, (err, result)=> {
               if(result){
                 const token=jwt.sign({userid:user[0]._id},"masai");
-                res.send({ "msg": "Login Successful", "token": token });
+                res.json({ "msg": "Login Successful", "token": token });
               }else{
-                res.send("Wrong credientials")    
+                res.json("Wrong credientials")    
               }
             });
         }
         else {
-            res.send("Wrong credientials")
+            res.json("Wrong credientials")
         }
     } catch (error) {
-        res.send("Error in logging");
+        res.json("Error in logging");
         console.log(error);
     }
 })
